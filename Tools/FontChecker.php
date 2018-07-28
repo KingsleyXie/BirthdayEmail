@@ -14,6 +14,7 @@ use FontLib\Font;
 use FontLib\TrueType\Collection;
 
 class FontChecker {
+    // Note: This method does not support UTF-8 characters with four bytes
     private function ord_utf8($c) {
         $byte0 = ord(substr($c, 0));
         if ($byte0 < 0x80) return $byte0;
@@ -21,7 +22,8 @@ class FontChecker {
         $byte1 = ord(substr($c, 1));
         if ($byte0 < 0xE0) return (($byte0 & 0x1F) << 6) + ($byte1 & 0x3F);
 
-        return (($byte0 & 0x0F) << 12) + (($byte1 & 0x3F) << 6) + (ord(substr($c, 2)) & 0x3F);
+        $byte2 = ord(substr($c, 2));
+        return (($byte0 & 0x0F) << 12) + (($byte1 & 0x3F) << 6) + ($byte2 & 0x3F);
     }
 
     private function charInFont($char, $font) {

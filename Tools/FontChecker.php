@@ -48,7 +48,7 @@ class FontChecker
             $font = $font->getFont(0);
         }
 
-        foreach (preg_split('//u', $str, null, PREG_SPLIT_NO_EMPTY) as $char) {
+        foreach (preg_split('//u', str_replace('·', '', $str), null, PREG_SPLIT_NO_EMPTY) as $char) {
             if (!$this->charInFont($char, $font)) return false;
         }
         return true;

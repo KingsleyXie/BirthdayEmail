@@ -2,7 +2,7 @@
 require_once 'SendBirthdayEmails.php';
 
 use Tools\FontChecker;
-use Tools\TextDataParser;
+use Tools\TextSizeParser;
 
 class Tests
 {
@@ -35,38 +35,35 @@ class Tests
 
         $checker = new FontChecker;
         foreach ($fonts as $font) {
-            echo '<hr>' . $font . ':<br><br>';
+            echo "------\n$font:\n\n";
 
             foreach ($this->text_arr as $str) {
                 $ans = ($checker->isStringValid($str, $font) ? '√' : '×');
-                echo "$str $ans<br>";
+                echo "$str $ans\n";
             }
         }
     }
 
     public function parserTest() {
-        echo '<hr>Parser charLen() method:<br><br>';
+        echo "------\nParser charLen() method:\n\n";
 
-        $parser = new TextDataParser;
+        $parser = new TextSizeParser;
         foreach ($this->text_arr as $str) {
             $len = $parser->charLen($str);
-            echo "$str $len<br>";
+            echo "$str $len\n";
         }
 
-        echo '<hr>Parser parseIndex() method:<br><br>';;
+        echo "------\nParser parseIndex() method:\n\n";;
 
         foreach (array_merge($this->name_arr, $this->alt_name_arr) as $name) {
             $ind = $parser->parseIndex($name);
-            echo "$name $ind<br>";
+            echo "$name $ind\n";
         }
     }
 
     public function imageGenerateTest() {
-        $dirs = [
-            'TestGeneratedImages',
-            'TestGeneratedImages/images',
-            'TestGeneratedImages/alt-images'
-        ];
+        // These are test directories
+        $dirs = ['images', 'images/name', 'images/alt-name'];
 
         foreach ($dirs as $dir) {
             if (!is_dir($dir)) mkdir($dir);
@@ -75,10 +72,12 @@ class Tests
         $obj = new SendBirthdayEmails;
         foreach ($this->name_arr as $name) {
             $obj->generateImage($name, $dirs[1]);
+            $obj->generateImage($name, $dirs[1], true);
         }
 
         foreach ($this->alt_name_arr as $name) {
             $obj->generateImage($name, $dirs[2]);
+            $obj->generateImage($name, $dirs[2], true);
         }
     }
 }

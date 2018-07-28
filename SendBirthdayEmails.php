@@ -10,7 +10,7 @@ use Tools\TextBox;
 
 class SendBirthdayEmails
 {
-    public function generateImage($name, $dir) {
+    public function generateImage($name, $dir, $withRect =false) {
         $image = imagecreatefrompng('Assets/card.png');
         $color = imagecolorallocate($image, 144, 139, 134);
 
@@ -32,12 +32,19 @@ class SendBirthdayEmails
         }
 
         // TODO: Process multi-line situation
-        $name = str_replace('·', "\n", $name);
+        $name = str_replace('·', "", $name);
         $box = new TextBox;
-        $padding = $box->getPoints($font_size, $font_path, $name);
+        $bounding = $box->getBounding($font_size, $font_path, $name);
+
+        imagettftext(
+            $image, $font_size, 0,
+            $bounding['baseline_x'],
+            $bounding['baseline_y'],
+            $color, $font_path, $name
+        );
 
         // Rectangles for debug
-        if (true) {
+        if ($withRect) {
             // Outer Rectangle
             imagerectangle(
                 $image,
@@ -52,26 +59,18 @@ class SendBirthdayEmails
             $box = imagettfbbox($font_size, 0, $font_path, $name);
             imagerectangle(
                 $image,
-                $padding['lower_left_x'],
-                $padding['lower_left_y'],
-                $padding['upper_right_x'],
-                $padding['upper_right_y'],
+                $bounding['upper_left_x'],
+                $bounding['upper_left_y'],
+                $bounding['lower_right_x'],
+                $bounding['lower_right_y'],
                 $color
             );
-        }
 
-        imagettftext(
-            $image, $font_size, 0,
-            $padding['lower_left_x'],
-            $padding['lower_left_y'],
-            $color, $font_path, $name
-        );
+            // Filename convertion to avoid png file name collisions
+            $name = 'rect' . $name;
+        }
 
         imagepng($image, "$dir/$name.png");
         imagedestroy($image);
     }
 }
-
-$obj = new SendBirthdayEmails;
-// $obj->generateImage('董建堃', './');
-$obj->generateImage('赵四', './');

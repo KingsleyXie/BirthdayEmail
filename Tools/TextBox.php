@@ -1,4 +1,7 @@
 <?php
+// Solution for a font baseline drawing related bug comes from PHP.net:
+// http://php.net/manual/en/function.imagettfbbox.php#75407
+
 namespace Tools;
 
 class TextBox
@@ -8,30 +11,58 @@ class TextBox
         'right' => 860, 'bottom' => 200
     ];
 
-    public function getPoints($size, $font, $name, $center =true) {
-        $innerBox = imagettfbbox($size, 0, $font, $name);
+    public function getBounding($size, $font, $name, $center =true) {
         $rect = TextBox::$RECT;
+        $innerBox = imagettfbbox($size, 0, $font, $name);
 
         $outterHeight = $rect['bottom'] - $rect['top'];
-        $innerHeight = abs($innerBox[5] - $innerBox[1]);
-
         $outterWidth = $rect['right'] - $rect['left'];
+
+        // (This method is too naive)
+        // $innerHeight = abs($innerBox[5] - $innerBox[1]);
+        // $innerWidth = abs($innerBox[4] - $innerBox[0]);
+
         $innerWidth = abs($innerBox[4] - $innerBox[0]);
-
-        $ans = [
-            'lower_left_x' => $rect['left'],
-            'lower_left_y' => ($rect['bottom'] - ($outterHeight - $innerHeight) / 2)
-        ];
-
-        $ans['upper_right_x'] = $ans['lower_left_x'] + $innerWidth;
-        $ans['upper_right_y'] = $ans['lower_left_y'] - $innerHeight;
-
-        if ($center) {
-            $offset = ($outterWidth - $innerWidth) / 2;
-            $ans['lower_left_x'] += $offset;
-            $ans['upper_right_x'] += $offset;
+        if($innerBox[0] < -1) {
+            $innerWidth = abs($innerBox[4]) + abs($innerBox[0]) - 1;
         }
 
-        return $ans;
+        $innerHeight = abs($innerBox[5]) - abs($innerBox[1]);
+        if($innerBox[1] > 0) {
+            $innerHeight = abs($innerBox[5] - $innerBox[1]) - 1;
+        }
+
+        if($innerBox[0] >= -1) {
+            $baseX = abs($innerBox[0] + 1) * -1;
+        } else {
+            $baseX = abs($innerBox[0] + 2);
+        }
+        $baseY = abs($innerBox[5] + 1);
+
+        $bounding = [
+            'upper_left_x' => $rect['left'],
+            'upper_left_y' => $rect['top'],
+            'baseline_x' => $rect['left'] + $baseX,
+            'baseline_y' => $rect['top'] + $baseY
+        ];
+
+        $bounding['lower_right_x'] = $bounding['upper_left_x'] + $innerWidth;
+        $bounding['lower_right_y'] = $bounding['upper_left_y'] + $innerHeight;
+
+        // Vertical Center Alignments
+        $offsetY = ($outterHeight - $innerHeight) / 2;
+        $bounding['baseline_y'] += $offsetY;
+        $bounding['upper_left_y'] += $offsetY;
+        $bounding['lower_right_y'] += $offsetY;
+
+        // Horizontal Center Alignment
+        if ($center) {
+            $offsetX = ($outterWidth - $innerWidth) / 2;
+            $bounding['baseline_x'] += $offsetX;
+            $bounding['upper_left_x'] += $offsetX;
+            $bounding['lower_right_x'] += $offsetX;
+        }
+
+        return $bounding;
     }
 }

@@ -13,7 +13,8 @@ namespace Tools;
 use FontLib\Font;
 use FontLib\TrueType\Collection;
 
-class FontChecker {
+class FontChecker
+{
     // Note: This method does not support UTF-8 characters with four bytes
     private function ord_utf8($c) {
         $byte0 = ord(substr($c, 0));

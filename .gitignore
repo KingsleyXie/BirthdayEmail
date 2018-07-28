@@ -1,2 +1,5 @@
+# Generated Images
 GeneratedImages/*
-TestGeneratedImages/*
+
+# Test Images
+images/*

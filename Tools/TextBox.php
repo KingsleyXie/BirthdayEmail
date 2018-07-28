@@ -56,8 +56,8 @@ class TextBox
         $bounding['lower_right_y'] += $offsetY;
 
         // Horizontal Center Alignment
-        if ($center) {
-            $offsetX = ($outterWidth - $innerWidth) / 2;
+        $offsetX = ($outterWidth - $innerWidth) / 2;
+        if ($center && $offsetX > 0) {
             $bounding['baseline_x'] += $offsetX;
             $bounding['upper_left_x'] += $offsetX;
             $bounding['lower_right_x'] += $offsetX;

@@ -1,9 +1,11 @@
 <?php
 require_once 'FontLib\Autoloader.php';
 require_once 'Tools\FontChecker.php';
+require_once 'Tools\TextBox.php';
 require_once 'Tools\TextDataParser.php';
 
 use Tools\FontChecker;
+use Tools\TextBox;
 use Tools\TextDataParser;
 
 class SendBirthdayEmails
@@ -29,18 +31,28 @@ class SendBirthdayEmails
             $td = $parser->calcAltFont($name);
         }
 
-        imagettftext(
+        // imagettftext(
+        //     $image,
+        //     $td->size,
+        //     0,
+        //     $td->paddingLeft,
+        //     $td->paddingTop,
+        //     $color,
+        //     $font_path,
+        //     str_replace('·', "\n", $name)
+        // );
+        imagerectangle(
             $image,
-            $td->size,
-            0,
-            $td->paddingLeft,
-            $td->paddingTop,
-            $color,
-            $font_path,
-            str_replace('·', "\n", $name)
+            TextBox::$RECT['left'],
+            TextBox::$RECT['top'],
+            TextBox::$RECT['right'],
+            TextBox::$RECT['bottom'],
+            $color
         );
 
         imagepng($image, "$dir/$name.png");
         imagedestroy($image);
     }
 }
+$obj = new SendBirthdayEmails;
+$obj->generateImage('董建堃', './');

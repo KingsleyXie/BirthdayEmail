@@ -14,7 +14,17 @@ class Tests
         '空 格', '在線', '坠后一个'
     ];
 
-    private $name_arr = [];
+    private $name_arr = [
+        '董华', '董建华', '董张宝华',
+        '恶魔喵喵喵', '尼古拉斯·赵四',
+        '拉斯特洛夫斯基·赵五六七八'
+    ];
+
+    private $alt_name_arr = [
+        '董堃', '董建堃', '董张宝堃',
+        '恶魔喵堃喵', '尼古拉斯·赵堃',
+        '拉斯特洛堃斯基·赵五六七八'
+    ];
 
     public function checkerTest() {
         $asset_path = getcwd() . '\Assets';
@@ -43,16 +53,33 @@ class Tests
             echo "$str $len<br>";
         }
 
-        echo '<hr>Parser charLen() method:<br><br>';;
+        echo '<hr>Parser parseIndex() method:<br><br>';;
 
-        foreach ($this->name_arr as $name) {
+        foreach (array_merge($this->name_arr, $this->alt_name_arr) as $name) {
             $ind = $parser->parseIndex($name);
-            echo "$str $ind<br>";
+            echo "$name $ind<br>";
         }
     }
 
     public function imageGenerateTest() {
-        // 
+        $dirs = [
+            'TestGeneratedImages',
+            'TestGeneratedImages/images',
+            'TestGeneratedImages/alt-images'
+        ];
+
+        foreach ($dirs as $dir) {
+            if (!is_dir($dir)) mkdir($dir);
+        }
+
+        $obj = new SendBirthdayEmails;
+        foreach ($this->name_arr as $name) {
+            $obj->generateImage($name, $dirs[1]);
+        }
+
+        foreach ($this->alt_name_arr as $name) {
+            $obj->generateImage($name, $dirs[2]);
+        }
     }
 }
 

@@ -9,12 +9,15 @@ use Tools\TextDataParser;
 class SendBirthdayEmails
 {
     public function generateImage($name, $dir) {
-        $image = imagecreatefrompng('Assets\card.png');
+        $image = imagecreatefrompng('Assets/card.png');
         $color = imagecolorallocate($image, 144, 139, 134);
 
-        $asset_path = getcwd() . '\Assets';
-        $font_path = $asset_path . '\name.ttf';
-        $font_path_alternate = $asset_path . '\alt.ttf';
+        $asset_path = getcwd() . '/Assets';
+        $font_path = $asset_path . '/name.ttf';
+        $font_path_alternate = $asset_path . '/alt.ttf';
+
+        $checker = new FontChecker;
+        $parser = new TextDataParser;
 
         $td = null;
         if ($checker->isStringValid($name, $font_path)) {
@@ -37,7 +40,7 @@ class SendBirthdayEmails
             str_replace('·', "\n", $name)
         );
 
-        imagepng($image, "$dir$name.png");
+        imagepng($image, "$dir/$name.png");
         imagedestroy($image);
     }
 }

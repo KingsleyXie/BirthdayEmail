@@ -1,18 +1,16 @@
 <?php
 namespace Tools;
 
-class TextPaddingParser
+class TextBox
 {
     public static $RECT = [
-        'left' => 630,
-        'top' => 80,
-        'right' => 860,
-        'bottom' => 200
+        'left' => 630, 'top' => 80,
+        'right' => 860, 'bottom' => 200
     ];
 
-    public function getPadding($size, $font, $name, $center =true) {
+    public function getPoints($size, $font, $name, $center =true) {
         $innerBox = imagettfbbox($size, 0, $font, $name);
-        $rect = TextPaddingParser::$RECT;
+        $rect = TextBox::$RECT;
 
         $outterHeight = $rect['bottom'] - $rect['top'];
         $innerHeight = abs($innerBox[5] - $innerBox[1]);

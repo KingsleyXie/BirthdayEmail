@@ -2,11 +2,11 @@
 require_once 'FontLib\Autoloader.php';
 require_once 'Tools\FontChecker.php';
 require_once 'Tools\TextSizeParser.php';
-require_once 'Tools\TextPaddingParser.php';
+require_once 'Tools\TextBox.php';
 
 use Tools\FontChecker;
 use Tools\TextSizeParser;
-use Tools\TextPaddingParser;
+use Tools\TextBox;
 
 class SendBirthdayEmails
 {
@@ -23,26 +23,32 @@ class SendBirthdayEmails
 
         $font_size = 0;
         if ($checker->isStringValid($name, $font_path)) {
-            // If current font supports the text
             $font_size = $parser->getSize($name);
         } else {
+            // If current font does not support the name
+            // Change it to another wide-range font
             $font_path = $font_path_alternate;
             $font_size = $parser->getAltSize($name);
         }
 
-        $parser = new TextPaddingParser;
-        $padding = $parser->getPadding($font_size, $font_path, str_replace('·', "\n", $name));
+        // TODO: Process multi-line situation
+        $name = str_replace('·', "\n", $name);
+        $box = new TextBox;
+        $padding = $box->getPoints($font_size, $font_path, $name);
 
+        // Rectangles for debug
         if (true) {
+            // Outer Rectangle
             imagerectangle(
                 $image,
-                TextPaddingParser::$RECT['left'],
-                TextPaddingParser::$RECT['top'],
-                TextPaddingParser::$RECT['right'],
-                TextPaddingParser::$RECT['bottom'],
+                TextBox::$RECT['left'],
+                TextBox::$RECT['top'],
+                TextBox::$RECT['right'],
+                TextBox::$RECT['bottom'],
                 $color
             );
 
+            // Inner Rectangle
             $box = imagettfbbox($font_size, 0, $font_path, $name);
             imagerectangle(
                 $image,
@@ -55,14 +61,10 @@ class SendBirthdayEmails
         }
 
         imagettftext(
-            $image,
-            $font_size,
-            0,
+            $image, $font_size, 0,
             $padding['lower_left_x'],
             $padding['lower_left_y'],
-            $color,
-            $font_path,
-            str_replace('·', "\n", $name)
+            $color, $font_path, $name
         );
 
         imagepng($image, "$dir/$name.png");
@@ -72,4 +74,4 @@ class SendBirthdayEmails
 
 $obj = new SendBirthdayEmails;
 // $obj->generateImage('董建堃', './');
-$obj->generateImage('赵五六', './');
+$obj->generateImage('赵四', './');

@@ -17,11 +17,11 @@ class TextData
 // instead of just guess and try and record them = =
 class TextDataParser
 {
-    private function charLen($text) {
+    public function charLen($text) {
         return count(preg_split('//u', str_replace('·', '', $text), null, PREG_SPLIT_NO_EMPTY));
     }
 
-    private function parseIndex($text) {
+    public function parseIndex($text) {
         $len = $this->charLen($text);
 
         if ($len < 5) return $len - 2;
@@ -62,22 +62,5 @@ class TextDataParser
         $td->setData($data_lib[$this->parseIndex($text)]);
 
         return $td;
-    }
-
-
-
-    public function test() {
-        $arr = [
-            'abcde', '中文', '我能吞下玻璃而不伤身体',
-            '中间·有间隔点', '堃', '隺', '000', '01中英文abc',
-            'deep dark fantansy', 'deep♂dark♂fantansy',
-            '假装繁体', 'ただいま', '輸入簡體字',
-            '空 格', '在線', '坠后一个'
-        ];
-
-        foreach ($arr as $str) {
-            $len = $this->charLen($str);
-            echo "$str $len<br>";
-        }
     }
 }

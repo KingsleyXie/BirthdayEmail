@@ -16,13 +16,6 @@ class SendBirthdayEmails
         $font_path = $asset_path . '\name.ttf';
         $font_path_alternate = $asset_path . '\alt.ttf';
 
-        $checker = new FontChecker;
-        $parser = new TextDataParser;
-
-        // Test Code
-        // $checker->batchTest([$font_path, $font_path_alternate]);
-        // $parser->test();
-
         $td = null;
         if ($checker->isStringValid($name, $font_path)) {
             // If current font supports the text
@@ -48,7 +41,3 @@ class SendBirthdayEmails
         imagedestroy($image);
     }
 }
-
-$name = '董华';
-$obj = new SendBirthdayEmails;
-$obj->generateImage($name, 'GeneratedImages/');

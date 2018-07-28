@@ -53,29 +53,4 @@ class FontChecker
         }
         return true;
     }
-
-
-
-    public function test($test_font) {
-        $arr = [
-            'abcde', '中文', '我能吞下玻璃而不伤身体',
-            '中间·有间隔点', '堃', '隺', '000', '01中英文abc',
-            'deep dark fantansy', 'deep♂dark♂fantansy',
-            '假装繁体', 'ただいま', '輸入簡體字',
-            '空 格', '在線', '坠后一个'
-        ];
-
-        foreach ($arr as $str) {
-            $ans = ($this->isStringValid($str, $test_font) ? '√' : '×');
-            echo "$str $ans<br>";
-        }
-    }
-
-    public function batchTest($test_font_arr) {
-        foreach ($test_font_arr as $ft) {
-            echo $ft . ':<br><br>';
-            $this->test($ft);
-            echo '<hr>';
-        }
-    }
 }

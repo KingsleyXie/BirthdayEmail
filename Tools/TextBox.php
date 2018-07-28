@@ -11,7 +11,7 @@ class TextBox
         'right' => 860, 'bottom' => 200
     ];
 
-    public function getBounding($size, $font, $name, $center =true) {
+    public static function getBounding($size, $font, $name, $center =true) {
         $rect = TextBox::$RECT;
         $innerBox = imagettfbbox($size, 0, $font, $name);
 

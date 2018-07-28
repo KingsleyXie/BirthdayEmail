@@ -61,21 +61,30 @@ class Tests
 
     public function imageGenerateTest() {
         // These are test directories
-        $dirs = ['images', 'images/name', 'images/alt-name'];
+        $dirs = [
+            'images',
+            'images/name', 'images/alt-name',
+            'images/refed-name', 'images/refed-alt-name'
+        ];
 
         foreach ($dirs as $dir) {
             if (!is_dir($dir)) mkdir($dir);
         }
 
         $obj = new SendBirthdayEmails;
+
         foreach ($this->name_arr as $name) {
             $obj->generateImage($name, $dirs[1]);
-            $obj->generateImage($name, $dirs[1], true);
         }
-
         foreach ($this->alt_name_arr as $name) {
             $obj->generateImage($name, $dirs[2]);
-            $obj->generateImage($name, $dirs[2], true);
+        }
+
+        foreach ($this->name_arr as $name) {
+            $obj->generateImage($name, $dirs[3], true);
+        }
+        foreach ($this->alt_name_arr as $name) {
+            $obj->generateImage($name, $dirs[4], true);
         }
     }
 }

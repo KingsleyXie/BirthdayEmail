@@ -13,7 +13,18 @@ class TextDataParser
         return count(preg_split('//u', $text, null, PREG_SPLIT_NO_EMPTY));
     }
 
-    public function calc($text, $defaultFont) {
+    public function calc($text) {
+        $td = new TextData;
+
+        $td->text = str_replace('·', "\n", $text);
+        $td->size = 80;
+        $td->paddingLeft = 652;
+        $td->paddingTop = 154;
+
+        return $td;
+    }
+
+    public function calcAltFont($text) {
         $td = new TextData;
 
         $text = str_replace('·', "\n", $text);
@@ -23,6 +34,8 @@ class TextDataParser
 
         return $td;
     }
+
+
 
     public function test() {
         $arr = [

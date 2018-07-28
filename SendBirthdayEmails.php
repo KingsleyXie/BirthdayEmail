@@ -6,7 +6,7 @@ require_once 'Tools\TextDataParser.php';
 use Tools\FontChecker;
 use Tools\TextDataParser;
 
-// header('Content-type: image/png');
+header('Content-type: image/png');
 
 $image = imagecreatefrompng('Assets\card.png');
 $color = imagecolorallocate($image, 144, 139, 134);
@@ -21,14 +21,18 @@ $checker = new FontChecker;
 $parser = new TextDataParser;
 
 // Test Code
-$checker->batchTest([$font_path, $font_path_alternate]);
-$parser->test();
+// $checker->batchTest([$font_path, $font_path_alternate]);
+// $parser->test();
 
-// Check if current font supports the text
-if (!$checker->isStringValid($text, $font_path)) $font_path = $font_path_alternate;
+$td = null;
+if ($checker->isStringValid($text, $font_path)) {
+    // If current font supports the text
+    // Calculate Text Related Data(Size & Position)
+    $td = $parser->calc($text);
+} else {
+    $font_path = $font_path_alternate;
+    $td = $parser->calcAltFont($text);
+}
 
-// Calculate Text Related Data(Size & Position)
-$td = $parser->calc($text, true);
-
-// imagettftext($image, $td->size, 0, $td->paddingLeft, $td->paddingTop, $color, $font_path, $td->text);
-// imagepng($image); imagedestroy($image);
+imagettftext($image, $td->size, 0, $td->paddingLeft, $td->paddingTop, $color, $font_path, $td->text);
+imagepng($image); imagedestroy($image);

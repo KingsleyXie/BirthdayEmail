@@ -54,6 +54,8 @@ class FontChecker
         return true;
     }
 
+
+
     public function test($test_font) {
         $arr = [
             'abcde', '中文', '我能吞下玻璃而不伤身体',

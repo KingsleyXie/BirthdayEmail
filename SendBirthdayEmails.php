@@ -1,6 +1,10 @@
 <?php
 require_once 'FontLib\Autoloader.php';
 
+require_once 'PHPMailer\PHPMailer.php';
+require_once 'PHPMailer\SMTP.php';
+require_once 'PHPMailer\Exception.php';
+
 require_once 'Text\FontChecker.php';
 require_once 'Text\TextSizeParser.php';
 require_once 'Text\TextBox.php';
@@ -9,6 +13,7 @@ require_once 'Text\Name.php';
 require_once 'Tool\Config.php';
 require_once 'Tool\BirthdayData.php';
 require_once 'Tool\Logger.php';
+require_once 'Tool\Email.php';
 
 use Text\FontChecker;
 use Text\TextSizeParser;
@@ -17,6 +22,7 @@ use Text\Name;
 
 use Tool\BirthdayData;
 use Tool\Logger;
+use Tool\Email;
 
 class SendBirthdayEmails
 {
@@ -25,7 +31,19 @@ class SendBirthdayEmails
         date_default_timezone_set('Asia/Shanghai');
     }
 
-    public function generateImage($text, $dir, $withRef =false) {
+    public function run() {
+        $data = BirthdayData::get(); $num = count($data);
+        $day = date('m-d'); $time = date(DATE_RFC2822);
+
+        Logger::append('data', "\n[$time]\t$day ($num)");
+        foreach($data as $a) {
+            Logger::append('data', implode(', ', $a));
+        }
+
+        $this->sendEmails($data, $day);
+    }
+
+    public function generateImage($text, $filename, $withRef =false) {
         $image = imagecreatefrompng('Assets/card.png');
         $color = imagecolorallocate($image, 144, 139, 134);
 
@@ -94,18 +112,28 @@ class SendBirthdayEmails
         }
 
         // Save as PNG file and free the corresponding memory
-        imagepng($image, "$dir/$text.png");
+        imagepng($image, $filename);
         imagedestroy($image);
     }
 
-    public function getDataAndLog() {
-        $data = BirthdayData::get(); $num = count($data);
-        $day = date('m-d'); $time = date(DATE_RFC2822);
+    public function sendEmails($data, $day) {
+        $dir = "images/$day/";
+        if (!is_dir($dir)) mkdir($dir);
 
-        $logger = new Logger;
-        $logger->append("\n[$time]\t$day ($num)");
-        foreach($data as $a) {
-            $logger->append(implode(', ', $a));
+        foreach ($data as $one) {
+            $mail = new Email;
+            try {
+                $name = $one['receiver']; $addr = $one['email'];
+
+                $filename = "$dir/Happy-Birthday-To-$name.png";
+                $this->generateImage($name, $filename);
+
+                $mail->sendBirthdayCard($addr, $filename, 'Assets/line.png');
+                Logger::append('mail', "[$day] $name<$addr>");
+            } catch (Exception $err) {
+                Logger::append('fail', "\n[$day] $name<$addr>\n" . $err);
+                // TODO: Send Email To Processor
+            }
         }
     }
 }

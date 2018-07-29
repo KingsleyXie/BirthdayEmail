@@ -11,8 +11,15 @@ class BirthdayData
             $conf['username'], $conf['password'],
             $conf['database'], $conf['port']
         );
-        $con->set_charset($conf['charset']);
 
-        return $con->query($conf['select'])->fetch_all();
+        $con->set_charset($conf['charset']);
+        $query = $con->query($conf['select']);
+
+        $arr = [];
+        if ($query) {
+            while ($row = $query->fetch_assoc())
+                array_push($arr, $row);
+        }
+        return $arr;
     }
 }

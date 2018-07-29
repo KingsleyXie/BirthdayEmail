@@ -3,14 +3,12 @@ namespace Tool;
 
 class Logger
 {
-    public function append($line, $success =true) {
+    public static function append($type, $line) {
         $log = Config::$log;
         $dir = $log['dir'];
         if (!is_dir($dir)) mkdir($dir);
 
-        if ($success) $file = fopen($dir . $log['succ'], 'a+');
-        else $file = fopen($dir . $log['fail'], 'a+');
-
+        $file = fopen($dir . $log[$type], 'a+');
         fwrite($file, $line . "\n");
         fclose($file);
     }

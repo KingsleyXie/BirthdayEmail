@@ -18,7 +18,9 @@ class Config
             'port' => 465,
             'secure' => 'ssl',
             'username' => 'MAIL_USERNAME',
-            'password' => 'MAIL_PASSWORD'
+            'password' => 'MAIL_PASSWORD',
+            'address' => 'MAIL_ADDRESS',
+            'name' => 'SENDER_NAME'
     ];
 
     public static $log = [

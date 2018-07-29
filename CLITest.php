@@ -4,7 +4,7 @@ require_once 'SendBirthdayEmails.php';
 use Text\FontChecker;
 use Text\TextSizeParser;
 
-class Tests
+class CLITest
 {
     private $text_arr = [
         'abcde', '中文', '我能吞下玻璃而不伤身体',
@@ -94,8 +94,8 @@ class Tests
     }
 }
 
-$test = new Tests;
-// $test->checkerTest();
-// $test->parserTest();
-// $test->imageGenerateTest();
+$test = new CLITest;
+$test->checkerTest();
+$test->parserTest();
+$test->imageGenerateTest();
 $test->dataAndLogTest();

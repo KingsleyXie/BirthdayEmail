@@ -1,9 +1,8 @@
-# Config and log files
+# Config file
 Config.php
+
+# Logs
 logs/*
 
-# Generated Images
-GeneratedImages/*
-
-# Test Images
+# Images
 images/*

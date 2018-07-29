@@ -1,8 +1,8 @@
 <?php
 require_once 'SendBirthdayEmails.php';
 
-use Tools\FontChecker;
-use Tools\TextSizeParser;
+use Text\FontChecker;
+use Text\TextSizeParser;
 
 class Tests
 {

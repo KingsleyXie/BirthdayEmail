@@ -1,14 +1,16 @@
 <?php
 require_once 'FontLib\Autoloader.php';
-require_once 'Tools\FontChecker.php';
-require_once 'Tools\TextSizeParser.php';
-require_once 'Tools\TextBox.php';
-require_once 'Tools\Name.php';
+require_once 'Text\FontChecker.php';
+require_once 'Text\TextSizeParser.php';
+require_once 'Text\TextBox.php';
+require_once 'Text\Name.php';
 
-use Tools\FontChecker;
-use Tools\TextSizeParser;
-use Tools\TextBox;
-use Tools\Name;
+require_once 'Tool\Config.php';
+
+use Text\FontChecker;
+use Text\TextSizeParser;
+use Text\TextBox;
+use Text\Name;
 
 class SendBirthdayEmails
 {

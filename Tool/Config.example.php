@@ -1,4 +1,6 @@
 <?php
+namespace Tool;
+
 class Config
 {
     public static $database = [

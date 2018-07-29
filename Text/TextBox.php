@@ -2,7 +2,7 @@
 // Solution for a font baseline drawing related bug comes from PHP.net:
 // http://php.net/manual/en/function.imagettfbbox.php#75407
 
-namespace Tools;
+namespace Text;
 
 class TextBox
 {

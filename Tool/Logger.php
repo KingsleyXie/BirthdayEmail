@@ -1,12 +1,10 @@
 <?php
-namespace Tools;
-
-require_once '../Config.php';
+namespace Tool;
 
 class Logger
 {
     public function log($line, $success =true) {
-        $log = \Config::$log;
+        $log = Config::$log;
         $dir = $log['dir'];
         if (!is_dir($dir)) mkdir($dir);
 

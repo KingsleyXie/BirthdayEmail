@@ -1,5 +1,5 @@
 <?php
-namespace Tools;
+namespace Text;
 
 class Name
 {

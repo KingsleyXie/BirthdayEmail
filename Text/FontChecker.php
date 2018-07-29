@@ -8,7 +8,7 @@
  * http://php.net/manual/en/function.ord.php
  */
 
-namespace Tools;
+namespace Text;
 
 use FontLib\Font;
 use FontLib\TrueType\Collection;

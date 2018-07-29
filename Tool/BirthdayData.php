@@ -1,12 +1,10 @@
 <?php
-namespace DB;
-
-require_once '../Config.php';
+namespace Tool;
 
 class BirthdayData
 {
     public static function get() {
-        $conf = \Config::$database;
+        $conf = Config::$database;
 
         $con = new mysqli(
             $conf['host'],

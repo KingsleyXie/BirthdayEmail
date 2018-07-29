@@ -1,5 +1,6 @@
-# Configuration File
+# Config and log files
 Config.php
+logs/*
 
 # Generated Images
 GeneratedImages/*

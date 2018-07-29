@@ -87,9 +87,15 @@ class Tests
             $obj->generateImage($name, $dirs[4], true);
         }
     }
+
+    public function dataAndLogTest() {
+        $obj = new SendBirthdayEmails;
+        $obj->getDataAndLog();
+    }
 }
 
 $test = new Tests;
-$test->checkerTest();
-$test->parserTest();
-$test->imageGenerateTest();
+// $test->checkerTest();
+// $test->parserTest();
+// $test->imageGenerateTest();
+$test->dataAndLogTest();

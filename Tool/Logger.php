@@ -3,7 +3,7 @@ namespace Tool;
 
 class Logger
 {
-    public function log($line, $success =true) {
+    public function append($line, $success =true) {
         $log = Config::$log;
         $dir = $log['dir'];
         if (!is_dir($dir)) mkdir($dir);

@@ -1,19 +1,30 @@
 <?php
 require_once 'FontLib\Autoloader.php';
+
 require_once 'Text\FontChecker.php';
 require_once 'Text\TextSizeParser.php';
 require_once 'Text\TextBox.php';
 require_once 'Text\Name.php';
 
 require_once 'Tool\Config.php';
+require_once 'Tool\BirthdayData.php';
+require_once 'Tool\Logger.php';
 
 use Text\FontChecker;
 use Text\TextSizeParser;
 use Text\TextBox;
 use Text\Name;
 
+use Tool\BirthdayData;
+use Tool\Logger;
+
 class SendBirthdayEmails
 {
+    public function __construct() {
+        // Set the timezone for date and email functions
+        date_default_timezone_set('Asia/Shanghai');
+    }
+
     public function generateImage($text, $dir, $withRef =false) {
         $image = imagecreatefrompng('Assets/card.png');
         $color = imagecolorallocate($image, 144, 139, 134);
@@ -85,5 +96,16 @@ class SendBirthdayEmails
         // Save as PNG file and free the corresponding memory
         imagepng($image, "$dir/$text.png");
         imagedestroy($image);
+    }
+
+    public function getDataAndLog() {
+        $data = BirthdayData::get(); $num = count($data);
+        $day = date('m-d'); $time = date(DATE_RFC2822);
+
+        $logger = new Logger;
+        $logger->append("\n[$time]\t$day ($num)");
+        foreach($data as $a) {
+            $logger->append(implode(', ', $a));
+        }
     }
 }

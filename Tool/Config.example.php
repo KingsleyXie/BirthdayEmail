@@ -14,7 +14,6 @@ class Config
     ];
 
     public static $mail = [
-            'timezone' => 'Asia/Shanghai',
             'host' => 'MAIL_SMTP_HOST',
             'port' => 465,
             'secure' => 'ssl',

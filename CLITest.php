@@ -62,9 +62,9 @@ class CLITest
     public function imageGenerateTest() {
         // These are test directories
         $dirs = [
-            'images',
-            'images/name', 'images/alt-name',
-            'images/refed-name', 'images/refed-alt-name'
+            'images/',
+            'images/name/', 'images/alt-name/',
+            'images/refed-name/', 'images/refed-alt-name/'
         ];
 
         foreach ($dirs as $dir) {
@@ -74,23 +74,18 @@ class CLITest
         $obj = new SendBirthdayEmails;
 
         foreach ($this->name_arr as $name) {
-            $obj->generateImage($name, $dirs[1]);
+            $obj->generateImage($name, $dirs[1] . $name . '.png');
         }
         foreach ($this->alt_name_arr as $name) {
-            $obj->generateImage($name, $dirs[2]);
+            $obj->generateImage($name, $dirs[2] . $name . '.png');
         }
 
         foreach ($this->name_arr as $name) {
-            $obj->generateImage($name, $dirs[3], true);
+            $obj->generateImage($name, $dirs[3] . $name . '.png', true);
         }
         foreach ($this->alt_name_arr as $name) {
-            $obj->generateImage($name, $dirs[4], true);
+            $obj->generateImage($name, $dirs[4] . $name . '.png', true);
         }
-    }
-
-    public function dataAndLogTest() {
-        $obj = new SendBirthdayEmails;
-        $obj->getDataAndLog();
     }
 }
 
@@ -98,4 +93,3 @@ $test = new CLITest;
 $test->checkerTest();
 $test->parserTest();
 $test->imageGenerateTest();
-$test->dataAndLogTest();

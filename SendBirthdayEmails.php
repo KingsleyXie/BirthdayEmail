@@ -131,8 +131,10 @@ class SendBirthdayEmails
                 $mail->sendBirthdayCard($addr, $filename, 'Assets/line.png');
                 Logger::append('mail', "[$day] $name<$addr>");
             } catch (Exception $err) {
-                Logger::append('fail', "\n[$day] $name<$addr>\n" . $err);
-                // TODO: Send Email To Processor
+                $msg = "\n[$day] $name<$addr>\n" . $err;
+
+                Logger::append('fail', $msg);
+                $mail->sendErrorMsg($msg);
             }
         }
     }

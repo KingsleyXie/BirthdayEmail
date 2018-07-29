@@ -4,11 +4,10 @@ namespace Tool;
 class Logger
 {
     public static function append($type, $line) {
-        $log = Config::$log;
-        $dir = $log['dir'];
+        $dir = 'logs/';
         if (!is_dir($dir)) mkdir($dir);
 
-        $file = fopen($dir . $log[$type], 'a+');
+        $file = fopen("$dir$type.log", 'a+');
         fwrite($file, $line . "\n");
         fclose($file);
     }

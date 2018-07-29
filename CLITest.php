@@ -25,9 +25,9 @@ class CLITest
     ];
 
     public function checkerTest() {
-        $asset_path = getcwd() . '\Assets';
-        $font_path = $asset_path . '\name.ttf';
-        $font_path_alternate = $asset_path . '\alt.ttf';
+        $asset_path = getcwd() . '/Assets';
+        $font_path = $asset_path . '/name.ttf';
+        $font_path_alternate = $asset_path . '/alt.ttf';
 
         $fonts = [$font_path, $font_path_alternate];
 

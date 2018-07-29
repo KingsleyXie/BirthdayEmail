@@ -1,19 +1,19 @@
 <?php
-require_once 'FontLib\Autoloader.php';
+require_once 'FontLib/Autoloader.php';
 
-require_once 'PHPMailer\PHPMailer.php';
-require_once 'PHPMailer\SMTP.php';
-require_once 'PHPMailer\Exception.php';
+require_once 'PHPMailer/PHPMailer.php';
+require_once 'PHPMailer/SMTP.php';
+require_once 'PHPMailer/Exception.php';
 
-require_once 'Text\FontChecker.php';
-require_once 'Text\TextSizeParser.php';
-require_once 'Text\TextBox.php';
-require_once 'Text\Name.php';
+require_once 'Text/FontChecker.php';
+require_once 'Text/TextSizeParser.php';
+require_once 'Text/TextBox.php';
+require_once 'Text/Name.php';
 
-require_once 'Tool\Config.php';
-require_once 'Tool\BirthdayData.php';
-require_once 'Tool\Logger.php';
-require_once 'Tool\Email.php';
+require_once 'Tool/Config.php';
+require_once 'Tool/BirthdayData.php';
+require_once 'Tool/Logger.php';
+require_once 'Tool/Email.php';
 
 use Text\FontChecker;
 use Text\TextSizeParser;
@@ -118,7 +118,7 @@ class SendBirthdayEmails
 
     public function sendEmails($data, $day) {
         $dir = "images/$day/";
-        if (!is_dir($dir)) mkdir($dir);
+        if (!is_dir($dir)) mkdir($dir, 0777, true);
 
         foreach ($data as $one) {
             $mail = new Email;

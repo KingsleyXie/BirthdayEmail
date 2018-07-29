@@ -6,8 +6,8 @@ Write configurations in `Tool/Config.php` according to samples provided inside `
 
 Run test file via command line to check whether text functions work properly:
 
-```php
-php CLITest.php
+```shell
+$ php CLITest.php
 ```
 
 Besides text related test results on screen, you should also see `images/` directory is created, in which all the cards are generated using test names, with or without reference lines.
@@ -16,8 +16,8 @@ The alternative font will be chosen if there is text which the default font does
 
 Be aware that the database, email, and log functions are not tested now, you should test them via the actual working command shown below with TEST CONFIGURATIONS:
 
-```php
-php index.php
+```shell
+$ php index.php
 ```
 
 Till now, if all seems to be fine, just change configurations to the production environment, and set the command as a timed task to `crontab`, for example:

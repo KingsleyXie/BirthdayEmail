@@ -13,7 +13,7 @@ require_once 'Text/Name.php';
 require_once 'Tool/Config.php';
 require_once 'Tool/BirthdayData.php';
 require_once 'Tool/Logger.php';
-require_once 'Tool/Email.php';
+require_once 'Tool/BirthdayEmail.php';
 
 use Text\FontChecker;
 use Text\TextSizeParser;
@@ -22,7 +22,7 @@ use Text\Name;
 
 use Tool\BirthdayData;
 use Tool\Logger;
-use Tool\Email;
+use Tool\BirthdayEmail;
 
 class SendBirthdayEmails
 {
@@ -40,7 +40,7 @@ class SendBirthdayEmails
             Logger::append('data', implode(', ', $a));
         }
 
-        $this->sendEmails($data, $day);
+        $this->sendEmails($data, $day, $time);
     }
 
     public function generateImage($text, $filename, $withRef =false) {
@@ -116,25 +116,27 @@ class SendBirthdayEmails
         imagedestroy($image);
     }
 
-    public function sendEmails($data, $day) {
+    public function sendEmails($data, $day, $time) {
         $dir = "images/$day/";
         if (!is_dir($dir)) mkdir($dir, 0777, true);
 
         foreach ($data as $one) {
-            $mail = new Email;
-            try {
-                $name = $one['receiver']; $addr = $one['email'];
+            $name = $one['receiver']; $addr = $one['email'];
+            $stamp = "[$time]\t$day $name<$addr>";
 
+            $birthdayEmail = new BirthdayEmail;
+
+            try {
                 $filename = "$dir/Happy-Birthday-To-$name.png";
                 $this->generateImage($name, $filename);
 
-                $mail->sendBirthdayCard($addr, $filename, 'Assets/line.png');
-                Logger::append('mail', "[$day] $name<$addr>");
+                $birthdayEmail->sendBirthdayCard($addr, $filename, 'Assets/line.png');
+                Logger::append('mail', $stamp);
             } catch (Exception $err) {
-                $msg = "\n[$day] $name<$addr>\n" . $err;
+                $msg = "\n$stamp\n$err";
 
                 Logger::append('fail', $msg);
-                $mail->sendErrorMsg($msg);
+                $birthdayEmail->sendErrorMsg($msg);
             }
         }
     }

@@ -12,7 +12,7 @@ class TextBox
     ];
 
     public static function getBounding($size, $font, $name, $center =true) {
-        $rect = TextBox::$RECT;
+        $rect = self::$RECT;
         $innerBox = imagettfbbox($size, 0, $font, $name);
 
         $outterHeight = $rect['bottom'] - $rect['top'];

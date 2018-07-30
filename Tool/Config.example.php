@@ -44,4 +44,15 @@ class Config
             ]
         ]
     ];
+
+    public static $remindSQL = [
+        'dep' =>
+            'SELECT * from departments',
+        'min' =>
+            'SELECT * from ministers',
+        'mem' =>
+            'SELECT * from members',
+        'nam' =>
+            'SELECT * from names'
+    ];
 }

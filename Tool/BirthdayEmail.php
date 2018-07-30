@@ -40,7 +40,7 @@ class BirthdayEmail
             $this->mail->isHTML(true);
 
             $this->mail->send();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new \Exception($this->mail->ErrorInfo);
         }
     }
@@ -48,11 +48,27 @@ class BirthdayEmail
     public function sendErrorMsg($msg) {
         $conf = Config::$mail['error'];
         foreach ($conf['admin'] as $addr) {
-            $this->mail->addAddress($addr);
+            try {
+                $this->mail->addAddress($addr);
+                $this->mail->Subject = $conf['subject'];
+                $this->mail->Body = $msg;
+                $this->mail->send();
+            } catch (Exception $e) {
+                throw new \Exception($this->mail->ErrorInfo);
+            }
         }
+    }
 
-        $this->mail->Subject = $conf['subject'];
-        $this->mail->Body = $msg;
-        $this->mail->send();
+    public function sendRemind($ministers, $subject, $msg) {
+        foreach ($ministers as $minister) {
+            try {
+                $this->mail->addAddress($minister['email']);
+                $this->mail->Subject = $subject;
+                $this->mail->Body = $msg;
+                $this->mail->send();
+            } catch (Exception $e) {
+                throw new \Exception($this->mail->ErrorInfo);
+            }
+        }
     }
 }

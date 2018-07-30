@@ -68,13 +68,7 @@ class SendReminds
             $msg .= "\n\n$sep\n以下同学将会在生日当天收到生日贺卡邮件：\n\n$names\n";
 
             $birthdayEmail = new BirthdayEmail;
-            try {
-                $birthdayEmail->sendRemind($ministers, $subject, $msg);
-            } catch (Exception $err) {
-                $msg = "\n$stamp\n$err";
-                Logger::append('remind-fail', $msg);
-                $birthdayEmail->sendErrorMsg($msg);
-            }
+            $birthdayEmail->sendRemind($ministers, $subject, $msg);
         }
     }
 

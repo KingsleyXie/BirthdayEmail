@@ -55,12 +55,19 @@ class BirthdayEmail
                 // Former settings should be cleared inside a loop
                 $this->mailer->clearAddresses();
 
-                $this->mailer->addAddress($minister['email']);
+                $name = $minister['receiver']; $addr = $minister['email'];
+                $time = date(DATE_RFC2822);
+
+                $this->mailer->addAddress($addr);
                 $this->mailer->Subject = $subject;
                 $this->mailer->Body = $msg;
                 $this->mailer->send();
+
+                Logger::append('mail', "[$time] R $name<$addr>"); // 'R' represents for Remind
             } catch (Exception $e) {
-                throw new \Exception($this->mailer->ErrorInfo);
+                $err = $this->mailer->ErrorInfo;
+                Logger::append('error', $err);
+                $this->sendErrorMsg($err);
             }
         }
     }

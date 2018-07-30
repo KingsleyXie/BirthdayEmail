@@ -122,7 +122,7 @@ class SendBirthdayEmails
 
         foreach ($data as $one) {
             $name = $one['receiver']; $addr = $one['email'];
-            $stamp = "[$time]\t$day $name<$addr>";
+            $stamp = "[$time] C $name<$addr>"; // 'C' represents for Card
 
             $birthdayEmail = new BirthdayEmail;
 

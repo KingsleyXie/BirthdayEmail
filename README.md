@@ -1,5 +1,5 @@
 ## BirthdayEmail:cake:
-This is a naive tool for organizations or associations to automatically send birthday emails:email: every day once connected with the member management system
+This is a naive tool for organizations or associations to automatically send birthday emails:email: every day once connected with the member management system, more details or ideas can be found in my [blog](https://kingsleyxie.cn/share-the-story-behind-birthday-email-repository) if you are interested.
 
 ### Usage
 Write configurations:pencil: in `Tool/Config.php` according to samples provided inside `Tool/Config.example.php`.
@@ -23,10 +23,10 @@ $ php index.php
 Till now, if all seems to be fine, just change configurations to the production environment, and set the command as a timed task to `crontab`, for example:
 
 ```
-0 8 * * * cd /path/to/directory/ && php index.php
+0 11 * * * cd /path/to/directory/ && php index.php
 ```
 
-In this example, the tool will automatically run at 08:00 :clock8: every morning, generate birthday card and send email for each member that is celebrating a birthday.
+In this example, the tool will automatically run at 11:00 :clock11: every morning, generate birthday card and send email for each member that is celebrating a birthday.
 
 If any error occurs, each email address in `Config::$mail['error']['admin']` will receive an alert.
 

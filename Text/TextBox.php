@@ -1,5 +1,6 @@
 <?php
-// Solution for a font baseline drawing related bug comes from PHP.net:
+// Solution for a font baseline drawing related bug comes from Stack Overflow and PHP.net:
+// https://stackoverflow.com/questions/36929656/imagettfbbox-calculates-wrong-rectangle-when-text-begins-with-number
 // http://php.net/manual/en/function.imagettfbbox.php#75407
 
 namespace Text;
